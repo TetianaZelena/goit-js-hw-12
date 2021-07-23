@@ -8,13 +8,13 @@ import refsGet from './js/refs';
 
 const refs = refsGet();
 
-
-  
-function fetchcountry(){
+function fetchcountry() {
 return fetch('https://restcountries.eu/rest/v2/all?fields=name;capital;population;flag;languages')
    .then(response => {
+     
       return response.json();
    })
+   
 }
 
 
@@ -23,40 +23,43 @@ refs.input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(e) {
    e.preventDefault();
-   const country = e.target.value.trim();
-   if (country.length === 0) {
-      clearData()
+   const countrySearch = e.target.value.trim();
+   if (countrySearch.lenght === 0) {
+      clearData();
       return;
    }
-fetchcountry(country)
-      .then(countries => {
-         if (countries.lenght === 1) {
-           refs.countryInfo.innerHTML = eventsTemplatesTumb (countries);
-           
-         }
-         return countries;
-      })
-      .then(countries => {
-         if (countries.lenght > 1 && countries.lenght <= 10) {
-            clearData();
-     refs.countryList.innerHTML =  eventsTemplates(data);
-         }
-         return countries;
-      })
-      .then(data => {
-         if (countries.lenght > 10) {
-            clearData();
-             Notify.info('Too many matches found. Please enter a more specific name.');
-         }
-      })
 
-      .catch(error => {
-         clearData();
-         Notify.failure('Oops, there is no country with that name');
-   } );
-};
+   console.log(countrySearch)
+   fetchcountry(countrySearch)
+      .then(renderCartCountry)
+      .catch(error => console.log(error))  
+     }
+
+// function renderCart(country) {
+//    refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplatesTumb(country)) 
+   
+// }
+
+function renderCartCountry(countrySearch) {
+ 
+   if (countrySearch.lenght === 1) {
+    return  refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplates(country))
+   }
+   else if (countrySearch.lenght > 1 && countrySearch.lenght <= 10) {
+      clearData();
+      return refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplatesTumb(country));
+   }
+   else if
+      (countrySearch.lenght > 10) {
+      clearData();
+      Notify.info('Too many matches found. Please enter a more specific name.');
+   }
+   else {
+     Notify.failure('Oops, there is no country with that name');
+   }
+}
 
 function clearData() {
   refs.countryList.innerHTML = '';
   refs.countryInfo.innerHTML = '';
-}
+}  
