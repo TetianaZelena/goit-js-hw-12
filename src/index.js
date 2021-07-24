@@ -30,6 +30,7 @@ function onSearch(e) {
 //    refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplatesTumb(country))
 // }
 function renderCartCountry(country) {
+   //  console.log(country.length);
    if (country.lenght === 1) {
     return  refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplates(country))
    }
