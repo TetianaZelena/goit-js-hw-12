@@ -7,7 +7,7 @@ import eventsTemplatesTumb from './templates/events_tumb';
 import refsGet from './js/refs';
 
 const refs = refsGet();
-
+let countrySearch = '';
 function fetchcountry(country) {
 return fetch(`https://restcountries.eu/rest/v2/name/${country}?fields=name;capital;population;flag;languages`)
    .then(response => {
@@ -20,7 +20,7 @@ refs.input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(e) {
    e.preventDefault();
-   const countrySearch = refs.input.value.trim(); 
+   countrySearch = refs.input.value.trim(); 
    fetchcountry(countrySearch)
       .then(renderCartCountry)
       .catch(error => console.log(renderCartCountry))
@@ -31,15 +31,15 @@ function onSearch(e) {
 // }
 function renderCartCountry(country) {
    //  console.log(country.length);
-   if (country.lenght === 1) {
-    return  refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplates(country))
+   if (country.length === 1) {
+    return  refs.countryInfo.insertAdjacentHTML('beforeend',  eventsTemplatesTumb(country))
    }
-   else if (country.lenght > 1 && country.lenght <= 10) {
+   else if (country.length > 1 && country.length <= 10) {
       clearData();
-      return refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplatesTumb(country));
+      return refs.countryInfo.insertAdjacentHTML('beforeend',  eventsTemplates(country));
    }
    else if
-      (country.lenght > 10) {
+      (country.length > 10) {
       clearData();
       Notify.info(`Too many matches found. Please enter a more specific name.`);
    }
