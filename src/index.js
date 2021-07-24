@@ -32,6 +32,7 @@ function onSearch(e) {
 function renderCartCountry(country) {
    //  console.log(country.length);
    if (country.length === 1) {
+      clearData()
     return  refs.countryInfo.insertAdjacentHTML('beforeend',  eventsTemplatesTumb(country))
    }
    else if (country.length > 1 && country.length <= 10) {
