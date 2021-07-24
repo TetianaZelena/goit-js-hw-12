@@ -8,8 +8,8 @@ import refsGet from './js/refs';
 
 const refs = refsGet();
 let countrySearch = '';
-function fetchcountry(country) {
-return fetch(`https://restcountries.eu/rest/v2/name/${country}?fields=name;capital;population;flag;languages`)
+function fetchcountry(name) {
+return fetch(`https://restcountries.eu/rest/v2/name/${name}?fields=name;capital;population;flag;languages`)
    .then(response => {
       return response.json();
    }) 
