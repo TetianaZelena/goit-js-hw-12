@@ -8,54 +8,42 @@ import refsGet from './js/refs';
 
 const refs = refsGet();
 
-function fetchcountry() {
-return fetch('https://restcountries.eu/rest/v2/all?fields=name;capital;population;flag;languages')
+function fetchcountry(country) {
+return fetch(`https://restcountries.eu/rest/v2/name/${country}?fields=name;capital;population;flag;languages`)
    .then(response => {
-     
       return response.json();
-   })
-   
+   }) 
 }
-
 
 const DEBOUNCE_DELAY = 300;
 refs.input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(e) {
    e.preventDefault();
-   const countrySearch = e.target.value.trim();
-   if (countrySearch.lenght === 0) {
-      clearData();
-      return;
-   }
-
-   console.log(countrySearch)
+   const countrySearch = refs.input.value.trim(); 
    fetchcountry(countrySearch)
       .then(renderCartCountry)
-      .catch(error => console.log(error))  
-     }
-
-// function renderCart(country) {
-//    refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplatesTumb(country)) 
-   
+      .catch(error => console.log(renderCartCountry))
+      
+    } 
+// function renderCartCountry(country) {
+//    refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplatesTumb(country))
 // }
-
-function renderCartCountry(countrySearch) {
- 
-   if (countrySearch.lenght === 1) {
+function renderCartCountry(country) {
+   if (country.lenght === 1) {
     return  refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplates(country))
    }
-   else if (countrySearch.lenght > 1 && countrySearch.lenght <= 10) {
+   else if (country.lenght > 1 && country.lenght <= 10) {
       clearData();
       return refs.countryInfo.insertAdjacentHTML('beforeend', eventsTemplatesTumb(country));
    }
    else if
-      (countrySearch.lenght > 10) {
+      (country.lenght > 10) {
       clearData();
-      Notify.info('Too many matches found. Please enter a more specific name.');
+      Notify.info(`Too many matches found. Please enter a more specific name.`);
    }
    else {
-     Notify.failure('Oops, there is no country with that name');
+     Notify.failure(`Oops, there is no country with that name`);
    }
 }
 
